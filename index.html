@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apples to Apples</title>
+  <style>
+    :root{
+      --bg:#faf8f5;
+      --panel:#ffffff;
+      --ink:#2d2520;
+      --muted:#6b5d54;
+      --brand:#c85a54;
+      --accent:#8b4513;
+      --green:#7a9b6f;
+      --light-red:#e89b95;
+      --line:#e8dfd7;
+      --radius:12px;
+      --shadow:0 2px 8px rgba(45,37,32,.08)
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:'Segoe UI',system-ui,-apple-system,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial;
+      line-height:1.6;
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{width:min(1100px,92%);margin:0 auto}
+    
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:var(--panel);
+      border-bottom:2px solid var(--line);
+      box-shadow:var(--shadow);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:18px 0;
+    }
+    .brand{
+      font-weight:800;
+      font-size:20px;
+      letter-spacing:.3px;
+      color:var(--ink);
+    }
+    .brand span{color:var(--brand)}
+    .links{display:flex;gap:24px}
+    .links a{
+      color:var(--muted);
+      font-weight:500;
+      text-decoration:none;
+      transition:color .2s;
+    }
+    .links a:hover{color:var(--brand)}
+    .menu-btn{
+      display:none;
+      background:none;
+      border:2px solid var(--line);
+      color:var(--ink);
+      padding:8px 14px;
+      border-radius:8px;
+      cursor:pointer;
+    }
+    
+    .hero{
+      padding:80px 0 50px;
+      text-align:center;
+      background:linear-gradient(to bottom, var(--panel), var(--bg));
+    }
+    .hero h1{
+      font-size:clamp(32px,5vw,52px);
+      line-height:1.1;
+      margin:0 0 16px;
+      color:var(--ink);
+    }
+    .hero h1 em{
+      color:var(--brand);
+      font-style:normal;
+    }
+    .hero p{
+      color:var(--muted);
+      font-size:18px;
+      max-width:700px;
+      margin:0 auto 28px;
+    }
+    .cta{display:inline-flex;gap:14px;flex-wrap:wrap;justify-content:center}
+    .btn{
+      display:inline-block;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+      font-size:16px;
+      padding:14px 28px;
+      border-radius:8px;
+      background:var(--brand);
+      color:var(--panel);
+      box-shadow:var(--shadow);
+      transition:all .2s;
+    }
+    .btn:hover{
+      background:var(--accent);
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(45,37,32,.15);
+    }
+    .btn.secondary{
+      background:var(--panel);
+      color:var(--ink);
+      border:2px solid var(--line);
+    }
+    .btn.secondary:hover{
+      border-color:var(--brand);
+      background:var(--panel);
+    }
+    
+    section{padding:60px 0}
+    .section-title{
+      font-size:clamp(24px,3.2vw,34px);
+      margin:0 0 12px;
+      color:var(--ink);
+    }
+    .section-sub{
+      color:var(--muted);
+      margin:0 0 32px;
+      font-size:17px;
+    }
+    
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .card{
+      background:var(--panel);
+      border:2px solid var(--line);
+      border-radius:var(--radius);
+      padding:24px;
+      box-shadow:var(--shadow);
+      transition:all .2s;
+    }
+    .card:hover{
+      border-color:var(--light-red);
+      box-shadow:0 4px 16px rgba(45,37,32,.12);
+    }
+    .card h3{
+      margin:0 0 10px;
+      font-size:19px;
+      color:var(--accent);
+    }
+    .card h4{
+      margin:0 0 8px;
+      font-size:17px;
+      color:var(--accent);
+    }
+    .card p{margin:0 0 10px;color:var(--muted)}
+    .card p:last-child{margin:0}
+    .card strong{color:var(--ink)}
+    
+    .twocol{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:28px;
+      align-items:start;
+    }
+    .bubble{
+      background:var(--panel);
+      border:2px solid var(--line);
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+    .list{
+      margin:12px 0;
+      padding-left:24px;
+      color:var(--muted);
+    }
+    .list li{margin:8px 0}
+    
+    .timeline{
+      position:relative;
+      margin:24px 0;
+      padding-left:28px;
+    }
+    .timeline:before{
+      content:"";
+      position:absolute;
+      left:10px;
+      top:0;
+      bottom:0;
+      width:3px;
+      background:var(--light-red);
+    }
+    .step{
+      position:relative;
+      margin:24px 0;
+      padding-left:12px;
+    }
+    .step:before{
+      content:"";
+      position:absolute;
+      left:-20px;
+      top:8px;
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background:var(--brand);
+      border:3px solid var(--bg);
+    }
+    .pill{
+      display:inline-block;
+      background:var(--light-red);
+      border:2px solid var(--line);
+      padding:6px 14px;
+      border-radius:20px;
+      color:var(--ink);
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:8px;
+    }
+    
+    /* Demo Section - Left Side Controls */
+    .demo-layout{
+      display:grid;
+      grid-template-columns:380px 1fr;
+      gap:28px;
+      align-items:start;
+    }
+    .pref-controls{
+      background:var(--panel);
+      border:2px solid var(--line);
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow:var(--shadow);
+      position:sticky;
+      top:100px;
+    }
+    .pref-controls h3{
+      margin:0 0 20px;
+      color:var(--accent);
+      font-size:20px;
+    }
+    .pref{display:grid;gap:20px}
+    .slider-group{display:grid;gap:8px}
+    .slider-group label{
+      font-weight:600;
+      color:var(--ink);
+      font-size:15px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .slider-value{
+      color:var(--brand);
+      font-size:16px;
+      min-width:30px;
+      text-align:right;
+    }
+    input[type=range]{
+      width:100%;
+      height:8px;
+      border-radius:4px;
+      background:var(--line);
+      outline:none;
+      -webkit-appearance:none;
+    }
+    input[type=range]::-webkit-slider-thumb{
+      -webkit-appearance:none;
+      appearance:none;
+      width:20px;
+      height:20px;
+      border-radius:50%;
+      background:var(--brand);
+      cursor:pointer;
+      box-shadow:var(--shadow);
+    }
+    input[type=range]::-moz-range-thumb{
+      width:20px;
+      height:20px;
+      border-radius:50%;
+      background:var(--brand);
+      cursor:pointer;
+      border:none;
+      box-shadow:var(--shadow);
+    }
+    
+    .result{
+      background:var(--panel);
+      border:2px solid var(--line);
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+    .result h3{
+      margin:0 0 16px;
+      color:var(--accent);
+      font-size:20px;
+    }
+    .result-content{
+      padding:20px;
+      background:var(--panel);
+      border-radius:8px;
+      border:2px solid var(--light-red);
+    }
+    .result-content strong{
+      font-size:24px;
+      color:var(--accent);
+      display:block;
+      margin-bottom:8px;
+    }
+    .result-content em{
+      color:var(--muted);
+      display:block;
+      margin:8px 0;
+      font-style:normal;
+    }
+    .result-content small{
+      color:var(--brand);
+      font-weight:600;
+    }
+    
+    footer{
+      padding:40px 0;
+      color:var(--muted);
+      text-align:center;
+      border-top:2px solid var(--line);
+      background:var(--panel);
+    }
+    
+    @media(max-width:900px){
+      .grid{grid-template-columns:1fr 1fr}
+      .twocol{grid-template-columns:1fr}
+      .demo-layout{grid-template-columns:1fr}
+      .pref-controls{position:static}
+    }
+    @media(max-width:640px){
+      .links{display:none}
+      .menu-btn{display:inline-block}
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">Apples to <span>Apples</span></div>
+      <nav class="links" id="navLinks">
+        <a href="#overview">Overview</a>
+        <a href="#data">Data</a>
+        <a href="#approach">Approach</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#demo">Demo</a>
+      </nav>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">☰ Menu</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <h1>Which apple fits <em>your</em> taste?</h1>
+      <p>We match personal flavor & texture preferences to specific apple varieties using data science. Explore our sources, planned methods, and try a tiny on‑page demo.</p>
+      <div class="cta">
+        <a class="btn" href="#demo">Try the Demo</a>
+        <a class="btn secondary" href="#overview">Project Details</a>
+      </div>
+    </section>
+
+    <section id="overview">
+      <div class="container twocol">
+        <div class="bubble">
+          <h2 class="section-title">Project Overview</h2>
+          <div class="grid" style="grid-template-columns:1fr;gap:18px">
+            <div class="card">
+              <h3>Research Question</h3>
+              <p>How do you determine the variety of apples most suited to someone's specific preferences?</p>
+            </div>
+            <div class="card">
+              <h3>Relation to Data Science</h3>
+              <p>We will use data science techniques to analyze datasets of apple flavor properties and map them to user‑stated preferences.</p>
+            </div>
+            <div class="card">
+              <h3>Why This Matters</h3>
+              <p>Apples are popular, but not all apples taste the same. Matching apples better helps people discover apples they'll genuinely enjoy—and supports growers, retailers, and food waste reduction.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bubble">
+          <h2 class="section-title">Highlights</h2>
+          <ul class="list">
+            <li>Preference modeling for sweetness, tartness, crispness, juiciness, and aroma.</li>
+            <li>Evidence‑based suggestions grounded in public datasets.</li>
+            <li>Path to an interactive recommender (web app or dashboard).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="data">
+      <div class="container">
+        <h2 class="section-title">Data Source</h2>
+        <p class="section-sub">Primary and secondary datasets used to characterize apple varieties and quantify sensory attributes.</p>
+        <article class="card">
+          <h3>Rittman Orchards</h3>
+          <p><a href="https://rittmanorchards.com/apple-chart" target="_blank" rel="noopener"> Apple Flavor Chart</a> — quick, human‑readable flavor & use notes to cross‑check attributes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="approach">
+      <div class="container twocol">
+        <div class="bubble">
+          <h2 class="section-title">Planned Approach</h2>
+          <p class="section-sub">We'll refine as the project develops.</p>
+          <div class="card">
+            <h3>Analysis Methods</h3>
+            <ul class="list">
+              <li>Exploratory data analysis & summary statistics</li>
+              <li>Feature engineering for sensory axes (e.g., sweetness ↔ tartness, crispness)</li>
+              <li>Similarity search / simple recommender</li>
+              <li>Next step: Show multiple apple recommendations</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Tools & Technologies</h3>
+            <ul class="list">
+              <li><strong>Languages:</strong> HTML, JS, CSS</li>
+            </ul>
+          </div>
+        </div>
+        <div class="bubble">
+          <h2 class="section-title">Project Timeline</h2>
+          <div class="timeline">
+            <div class="step">
+              <div class="pill">Phase 1: Setup & Data Collection (Weeks 1–3)</div>
+              <p class="section-sub">Finalize team roles & comms · Acquire datasets · Initial cleaning & EDA<br/>Proposals Due: <strong>Oct 15 @ 11:59 pm</strong></p>
+            </div>
+            <div class="step">
+              <div class="pill">Phase 2: Analysis & Visualization (Weeks 4–6)</div>
+              <p class="section-sub">Main analysis · First visuals · Build interactive components<br/>Checkpoint: <strong>Nov 06 @ 11:59 pm</strong></p>
+            </div>
+            <div class="step">
+              <div class="pill">Phase 3: Refinement & Presentation (Weeks 7–8)</div>
+              <p class="section-sub">Refinement · Final deliverables · Present & practice<br/>Final Deadline: <strong>Dec 03 @ 11:59 pm</strong> · Snowball Expo: <strong>Dec 04</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo">
+      <div class="container">
+        <h2 class="section-title">Demo: Preference → Suggestion</h2>
+        <p class="section-sub">This on‑page example uses common apples to illustrate the idea. Adjust your preferences on the left to get personalized recommendations.</p>
+        <div class="demo-layout">
+          <div class="pref-controls">
+            <h3>Your Preferences</h3>
+            <form class="pref" id="prefForm">
+              <div class="slider-group">
+                <label>
+                  Sweetness 
+                  <span class="slider-value" id="sweetVal">6</span>
+                </label>
+                <input type="range" id="sweet" min="0" max="10" value="6">
+              </div>
+              <div class="slider-group">
+                <label>
+                  Tartness 
+                  <span class="slider-value" id="tartVal">4</span>
+                </label>
+                <input type="range" id="tart" min="0" max="10" value="4">
+              </div>
+              <div class="slider-group">
+                <label>
+                  Crispness 
+                  <span class="slider-value" id="crispVal">7</span>
+                </label>
+                <input type="range" id="crisp" min="0" max="10" value="7">
+              </div>
+              <div class="slider-group">
+                <label>
+                  Juiciness 
+                  <span class="slider-value" id="juiceVal">6</span>
+                </label>
+                <input type="range" id="juice" min="0" max="10" value="6">
+              </div>
+              <button class="btn" type="button" id="go" style="width:100%;margin-top:10px">Find My Apple</button>
+            </form>
+          </div>
+          <div class="result">
+            <h3>Your Perfect Match</h3>
+            <div class="result-content" id="result">
+              Adjust the sliders and click "Find My Apple" to discover your perfect apple variety based on your taste preferences.
+            </div>
+            <div class="card" style="margin-top:20px">
+              <h4>About this demo</h4>
+              <p class="section-sub">We compare your preferences to our database of apple varieties and return the best matches using distance-based scoring.</p>
+              <ul class="list">
+                <li>Top recommendations with detailed explanations</li>
+                <li>Real-time matching based on multiple attributes</li>
+                <li>Expanding to include aroma and seasonal availability</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+  </footer>
+
+  <script>
+    const btn=document.getElementById('menuBtn');
+    const links=document.getElementById('navLinks');
+    btn?.addEventListener('click',()=>{const show=getComputedStyle(links).display!=='none';links.style.display=show?'none':'flex'});
+
+    // Update slider values display
+    function updateSliderValue(sliderId, displayId) {
+      const slider = document.getElementById(sliderId);
+      const display = document.getElementById(displayId);
+      slider.addEventListener('input', () => {
+        display.textContent = slider.value;
+      });
+    }
+    
+    updateSliderValue('sweet', 'sweetVal');
+    updateSliderValue('tart', 'tartVal');
+    updateSliderValue('crisp', 'crispVal');
+    updateSliderValue('juice', 'juiceVal');
+
+    // dataset (0–10 scale)
+    const apples=[
+        {name: "Yellow Transparent", sweetness: 0, tartness: 5, crispness: 5, juiciness: 0, notes: "Tart, crisp"},
+        {name: "Lodi", sweetness: 0, tartness: 5, crispness: 5, juiciness: 0, notes: "Tart, somewhat firm"},
+        {name: "Pristine", sweetness: 5, tartness: 5, crispness: 0, juiciness: 0, notes: "Sweet-tart"},
+        {name: "Dandee Red", sweetness: 5, tartness: 5, crispness: 2, juiciness: 0, notes: "Sweet-tart, semi-tender"},
+        {name: "Chenango Strawberry", sweetness: 0, tartness: 3, crispness: 0, juiciness: 0, notes: "Mildly tart, hint of strawberry taste and aroma"},
+        {name: "Sansa", sweetness: 5, tartness: 0, crispness: 5, juiciness: 5, notes: "Sweet, crunchy, juicy"},
+        {name: "Ginger Gold", sweetness: 5, tartness: 5, crispness: 5, juiciness: 5, notes: "G. Delicious type, but tangier"},
+        {name: "Zestar!", sweetness: 5, tartness: 5, crispness: 5, juiciness: 5, notes: "Sweet-tart, crunchy, juicy"},
+        {name: "St. Edmunds Pippin", sweetness: 0, tartness: 0, crispness: 5, juiciness: 5, notes: "Juicy, crisp, rich flavor"},
+        {name: "Summer Rambo", sweetness: 0, tartness: 5, crispness: 0, juiciness: 5, notes: "Juicy, tart, aromatic"},
+        {name: "Honeycrisp", sweetness: 5, tartness: 5, crispness: 9, juiciness: 5, notes: "Sweet-tart, very crunchy and juicy"},
+        {name: "Burgundy", sweetness: 0, tartness: 5, crispness: 5, juiciness: 0, notes: "Tart, crisp"},
+        {name: "Summerset", sweetness: 5, tartness: 5, crispness: 5, juiciness: 5, notes: "Sweet-tart, crisp, juicy"},
+        {name: "Blondee", sweetness: 5, tartness: 0, crispness: 5, juiciness: 5, notes: "Sweet, crunchy, juicy"},
+        {name: "Gala", sweetness: 5, tartness: 0, crispness: 5, juiciness: 0, notes: "Sweet, crisp"},
+        {name: "Pink Pearl", sweetness: 5, tartness: 5, crispness: 5, juiciness: 0, notes: "Sweet-tart, crisp, bright pink flesh"},
+        {name: "Swiss Gourmet", sweetness: 5, tartness: 5, crispness: 0, juiciness: 5, notes: "Sweet-tart, juicy"},
+        {name: "Sweetie", sweetness: 5, tartness: 0, crispness: 5, juiciness: 0, notes: "Sweet, crunchy"},
+        {name: "Sunburst", sweetness: 5, tartness: 5, crispness: 5, juiciness: 5, notes: "Sweet-tart, crispy, juicy"},
+        {name: "Twenty Ounce", sweetness: 0, tartness: 5, crispness: 2, juiciness: 5, notes: "Tender, juicy, tart"},
+        {name: "Golden Supreme", sweetness: 5, tartness: 0, crispness: 5, juiciness: 5, notes: "Sweet, early G. Delicious type"},
+        {name: "Autumn Crisp", sweetness: 5, tartness: 5, crispness: 0, juiciness: 5, notes: "Juicy, sweet-tart, slow to brown"},
+        {name: "Crimson Crisp", sweetness: 5, tartness: 0, crispness: 5, juiciness: 0, notes: "Crunchy, sweet, spicy"},
+        {name: "McIntosh", sweetness: 0, tartness: 3, crispness: 2, juiciness: 0, notes: "Mildly tart, spicy, very tender"},
+        {name: "Rubinola", sweetness: 5, tartness: 5, crispness: 5, juiciness: 0, notes: "Crisp, sweet-tart, doesn't brown"},
+        {name: "Cortland", sweetness: 0, tartness: 3, crispness: 2, juiciness: 0, notes: "Mildly tart, tender, slow to brown"},
+        {name: "Jonathan", sweetness: 0, tartness: 5, crispness: 5, juiciness: 0, notes: "Tart, firm"},
+        {name: "Jonagold", sweetness: 5, tartness: 5, crispness: 5, juiciness: 0, notes: "Sweet-tart, crisp"},
+        {name: "Fuji", sweetness: 5, tartness: 0, crispness: 9, juiciness: 5, notes: "Sweet, very crunchy, juicy"},
+        {name: "Erwin Bauer", sweetness: 0, tartness: 5, crispness: 9, juiciness: 0, notes: "Tart, very crunchy, complex flavor"},
+        {name: "Abbie's Apple", sweetness: 5, tartness: 5, crispness: 5, juiciness: 0, notes: "Sweet-tart, crunchy, fruit punch-like flavor"},
+        {name: "Crimson Gold", sweetness: 5, tartness: 5, crispness: 5, juiciness: 0, notes: "Sweet-tart, crisp"},
+        {name: "King David", sweetness: 0, tartness: 0, crispness: 5, juiciness: 5, notes: "Spicy, juicy, firm"},
+        {name: "Pinova", sweetness: 5, tartness: 5, crispness: 5, juiciness: 5, notes: "Sweet-tart, crisp, juicy"},
+        {name: "Spigold", sweetness: 5, tartness: 5, crispness: 5, juiciness: 0, notes: "Crunchy, sweet and tart"},
+        {name: "Elstar", sweetness: 5, tartness: 5, crispness: 5, juiciness: 0, notes: "Sweet-tart, crunchy"},
+        {name: "Empire", sweetness: 5, tartness: 0, crispness: 5, juiciness: 5, notes: "Sweet, crisp, juicy"},
+        {name: "Rosalee", sweetness: 5, tartness: 0, crispness: 5, juiciness: 0, notes: "Sweet, crunchy"},
+        {name: "Rhode Island Greening", sweetness: 0, tartness: 7, crispness: 5, juiciness: 0, notes: "Fairly tart, firm"},
+        {name: "Holiday", sweetness: 5, tartness: 5, crispness: 5, juiciness: 0, notes: "Sweet-tart, crisp, slow to brown"},
+        {name: "Golden Delicious", sweetness: 5, tartness: 0, crispness: 5, juiciness: 5, notes: "Sweet, crisp, juicy"},
+        {name: "Shizuka", sweetness: 5, tartness: 5, crispness: 5, juiciness: 5, notes: "Sister of Mutsu"},
+        {name: "Mutsu 2.0", sweetness: 5, tartness: 5, crispness: 5, juiciness: 5, notes: "Sweet-tart, crunchy, juicy"},
+        {name: "Karmijn de Sonnaville", sweetness: 9, tartness: 9, crispness: 0, juiciness: 0, notes: "Huge flavor, extremely sweet-tart"},
+        {name: "Grimes Golden", sweetness: 5, tartness: 5, crispness: 0, juiciness: 0, notes: "Sweet-tart, tangy"},
+        {name: "NY 428", sweetness: 5, tartness: 5, crispness: 0, juiciness: 5, notes: "Sweet-tart, juicy"},
+        {name: "Red Delicious", sweetness: 5, tartness: 0, crispness: 0, juiciness: 5, notes: "Sweet, juicy"},
+        {name: "Hidden Rose", sweetness: 0, tartness: 3, crispness: 5, juiciness: 0, notes: "Somewhat tart, crisp, red flesh"},
+        {name: "Scruffy", sweetness: 0, tartness: 0, crispness: 5, juiciness: 0, notes: "Scruffy appearance, but big flavor. Crunchy"},
+        {name: "Crunch-A-Bunch", sweetness: 5, tartness: 5, crispness: 0, juiciness: 0, notes: "Swee-tart, notes of tropical fruit"},
+        {name: "Crimson Topaz", sweetness: 5, tartness: 5, crispness: 9, juiciness: 0, notes: "Sweet and tart, very crunchy"},
+        {name: "King Luscious", sweetness: 5, tartness: 5, crispness: 5, juiciness: 0, notes: "Sweet, tart, crisp"},
+        {name: "Idared", sweetness: 0, tartness: 5, crispness: 5, juiciness: 0, notes: "Tart, firm"},
+        {name: "Melrose", sweetness: 5, tartness: 5, crispness: 5, juiciness: 5, notes: "Crunchy, excellent sweet-tart balance, juicy"},
+        {name: "Northern Spy", sweetness: 0, tartness: 5, crispness: 5, juiciness: 0, notes: "Tart, crunchy"},
+        {name: "Esopus Spitzenburg", sweetness: 5, tartness: 5, crispness: 5, juiciness: 5, notes: "Sweet-tart, juicy, crisp"},
+        {name: "White Winter Pearmain", sweetness: 0, tartness: 0, crispness: 2, juiciness: 0, notes: "Rich, balanced flavor, tender"},
+        {name: "Candycrisp", sweetness: 5, tartness: 0, crispness: 0, juiciness: 0, notes: "Sweet, pear-like flavor"},
+        {name: "Enterprise", sweetness: 0, tartness: 3, crispness: 5, juiciness: 0, notes: "Mildly tart, firm"},
+        {name: "Ambrosia", sweetness: 5, tartness: 0, crispness: 0, juiciness: 0, notes: "Sweet, floral notes"},
+        {name: "Cameo", sweetness: 5, tartness: 0, crispness: 5, juiciness: 0, notes: "Crunchy, excellent sweet flavor"},
+        {name: "York Imperial", sweetness: 0, tartness: 5, crispness: 0, juiciness: 5, notes: "Aromatic, tart, juicy"},
+        {name: "Calville Blanc d'Hiver", sweetness: 5, tartness: 0, crispness: 2, juiciness: 0, notes: "Tender, spicy, sweet"},
+        {name: "Braeburn", sweetness: 5, tartness: 5, crispness: 9, juiciness: 0, notes: "Sweet-tart, very crunchy"},
+        {name: "Westfield Seek-No-Further", sweetness: 0, tartness: 3, crispness: 0, juiciness: 5, notes: "Slightly tart, rich, juicy"},
+        {name: "Golden Russet", sweetness: 9, tartness: 5, crispness: 5, juiciness: 0, notes: "High sugar, tart, crunchy"},
+        {name: "Ludacrisp", sweetness: 0, tartness: 0, crispness: 5, juiciness: 5, notes: "Crunchy, juicy, fruit punch-like flavor"},
+        {name: "Stayman Winesap", sweetness: 0, tartness: 5, crispness: 5, juiciness: 0, notes: "Complex flavor, tart, firm"},
+        {name: "Pink Lady", sweetness: 0, tartness: 0, crispness: 5, juiciness: 5, notes: "Mild, nice crunch, juicy"},
+        {name: "EverCrisp", sweetness: 5, tartness: 0, crispness: 9, juiciness: 5, notes: "Sweet, very crunchy and juicy"},
+        {name: "Granny Smith", sweetness: 0, tartness: 5, crispness: 5, juiciness: 0, notes: "Tart, firm"},
+        {name: "GoldRush", sweetness: 9, tartness: 9, crispness: 9, juiciness: 0, notes: "Extremely sweet-tart, very crunchy"}
+    ];
+
+    function score(user,a){
+      const d=Math.abs(user.sweetness-a.sweetness)+Math.abs(user.tartness-a.tartness)+Math.abs(user.crispness-a.crispness)+Math.abs(user.juiciness-a.juiciness);
+      return 40-d;
+    }
+
+    function suggest(){
+      const user={
+        sweetness:+document.getElementById('sweet').value,
+        tartness:+document.getElementById('tart').value,
+        crispness:+document.getElementById('crisp').value,
+        juiciness:+document.getElementById('juice').value,
+      };
+      const ranked=apples.map(a=>({apple:a, s:score(user,a)})).sort((x,y)=>y.s-x.s);
+
+      const best=ranked[0];
+      const res=document.getElementById('result');
+      res.innerHTML=`<strong>${best.apple.name}</strong><em>${best.apple.notes}</em><small>Match Score: ${best.s}/40</small>`;
+    }
+
+    document.getElementById('go').addEventListener('click', suggest);
+  </script>
+</body>
+</html>
